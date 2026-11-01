@@ -1,0 +1,13 @@
+{
+  "id": "weiqi.trail-night",
+  "type": "theme",
+  "name": "数字迷踪·夜",
+  "author": "OzakiJUN",
+  "repo": "OzakiJUN/am-workshop",
+  "version": "1.0.0",
+  "url": "https://github.com/OzakiJUN/am-workshop/releases/download/samples/trail-night.zip",
+  "sha256": "cd2642328258d43851aa6aa5aec1c4bc480dbe139f49b45877e7a94eb0bc9825",
+  "size": 25579,
+  "summary": "深蓝夜色加金色的光，数字迷踪的配色（示例作品）",
+  "preview": "https://raw.githubusercontent.com/OzakiJUN/am-workshop/main/samples/trail-night/background.jpg"
+}

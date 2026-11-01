@@ -1,0 +1,12 @@
+{
+  "id": "weiqi.detective",
+  "type": "persona",
+  "name": "推理迷",
+  "author": "OzakiJUN",
+  "repo": "OzakiJUN/am-workshop",
+  "version": "1.0.0",
+  "url": "https://github.com/OzakiJUN/am-workshop/releases/download/samples/detective.zip",
+  "sha256": "8fead8c297238908da20046a6a6c10914fa685cc3f4648ca0f478941a827a1f6",
+  "size": 1062,
+  "summary": "爱推理、爱玩数字迷踪的小侦探（示例作品）"
+}
