@@ -1,0 +1,51 @@
+# After a merge: builds index.json from items/, signs it with the workshop
+# key (GitHub Secret WORKSHOP_SIGNING_KEY) and puts both on the `index`
+# branch, where the AM client downloads them:
+#   https://raw.githubusercontent.com/OzakiJUN/am-workshop/index/index.json
+#   https://raw.githubusercontent.com/OzakiJUN/am-workshop/index/index.sig
+name: publish
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: publish
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: stable
+      - name: Test the tool
+        run: go test ./...
+      - name: Build and sign the index
+        id: build
+        env:
+          WORKSHOP_SIGNING_KEY: ${{ secrets.WORKSHOP_SIGNING_KEY }}
+        run: |
+          if [ -z "$WORKSHOP_SIGNING_KEY" ]; then
+            echo "::warning::The signing key (secret WORKSHOP_SIGNING_KEY) is not set yet, so nothing was published. See PUBLISHING.md."
+            echo "skip=1" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          mkdir -p dist
+          go run ./tools/workshop build -o dist/index.json
+          go run ./tools/workshop sign -key-env WORKSHOP_SIGNING_KEY dist/index.json > dist/index.sig
+      - name: Put it on the index branch
+        if: steps.build.outputs.skip != '1'
+        env:
+          TOKEN: ${{ github.token }}
+        run: |
+          cd dist
+          printf '# AM workshop index\n\nBuilt automatically from the main branch. Do not edit.\n' > README.md
+          git init -q -b index
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -q -m "Index for ${GITHUB_SHA}"
+          git push -q -f "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" index

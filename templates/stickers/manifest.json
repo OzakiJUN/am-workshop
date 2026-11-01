@@ -1,0 +1,9 @@
+{
+  "format": 1,
+  "type": "stickers",
+  "id": "yourname.my-stickers",
+  "name": "我的表情包",
+  "version": "1.0.0",
+  "author": "your-github-name",
+  "description": "介绍一下这套表情。"
+}
