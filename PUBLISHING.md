@@ -5,7 +5,7 @@
 1. **做好作品包**：照着 [`templates/`](templates/) 里对应类型的模板改，格式见 [FORMAT.md](FORMAT.md)。在 AM 客户端的「工坊 → 已安装 → 从文件安装」里先装一次试试（会提示「未审核」，正常）。
 2. **放到你自己的 GitHub 仓库**：建一个公开仓库（比如 `am-theme-sakura`），把作品的源文件放进去。
 3. **发一个 Release**：仓库页面右边 Releases → Create a new release → Tag 填 `v1.0.0` → 把打好的 zip 拖进附件 → Publish。
-4. **算 SHA-256 和大小**：
+4. **算 SHA-256 和大小**（装了 Go 的话，可以先写好第 5 步的文件，再用 `go run ./tools/workshop checkfile items/你的id.json 作品.zip` 一次检查完，它会告诉你 sha256 和 size 该填多少）：
    - Windows：在 zip 所在的文件夹打开 PowerShell，运行 `Get-FileHash 作品.zip`（得到的字母改成小写；大小在文件属性里看「大小」括号里的字节数）。
    - macOS / Linux：`shasum -a 256 作品.zip`、`wc -c 作品.zip`。
 5. **提 PR**：在这个仓库点 Fork，在你的 fork 里加一个文件 `items/你的id.json`：
