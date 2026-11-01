@@ -30,7 +30,9 @@
 | --- | --- |
 | `items/` | 每个作品一个文件 |
 | `templates/` | 作品包模板 |
+| `samples/` | 工坊自己的示例作品（主题「数字迷踪·夜」、人格「推理迷」） |
 | `workshop.json` | 管理员名单、单个包的大小上限 |
 | `tools/workshop/` | 检查、生成索引、签名的工具（Go） |
 | `.github/workflows/check.yml` | PR 的自动检查 |
 | `.github/workflows/publish.yml` | 合并后生成并签名索引，推到 `index` 分支 |
+| `.github/workflows/samples.yml` | 把 `samples/*.zip` 传到 Release「samples」 |

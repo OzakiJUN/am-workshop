@@ -1,0 +1,19 @@
+{
+  "format": 1,
+  "type": "theme",
+  "id": "weiqi.trail-night",
+  "name": "数字迷踪·夜",
+  "version": "1.0.0",
+  "author": "OzakiJUN",
+  "description": "深蓝的夜里飘着几团金色的光，配「数字迷踪」正合适。深色模式，金色主题色，面板带一点主题色。\n这是工坊的示例作品，也可以拿来照着做自己的主题。",
+  "theme": {
+    "mode": "dark",
+    "accent": "#e0a83a",
+    "background": "background.jpg",
+    "bgBlur": 0,
+    "bgDim": 0.15,
+    "glassStyle": "tinted",
+    "glassOpacity": 0.7,
+    "glassBlur": 20
+  }
+}

@@ -1,0 +1,22 @@
+# The workshop's own sample works (samples/*.zip, made by the maintainers)
+# are published as files of the release "samples", so their items/ entries
+# can point at them like any author's release.
+name: samples
+on:
+  push:
+    branches: [main]
+    paths: ["samples/*.zip"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Upload to the samples release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view samples >/dev/null 2>&1 || gh release create samples --title "示例作品" --notes "工坊自己的示例作品，见 samples/ 文件夹。"
+          gh release upload samples samples/*.zip --clobber

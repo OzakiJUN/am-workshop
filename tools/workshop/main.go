@@ -47,6 +47,8 @@ func main() {
 		err = cmdSign(os.Args[2:])
 	case "verify":
 		err = cmdVerify(os.Args[2:])
+	case "checkfile":
+		err = cmdCheckFile(os.Args[2:])
 	default:
 		usage()
 	}
@@ -61,7 +63,8 @@ func usage() {
   workshop check [-author LOGIN] [-base REF] [-summary FILE] [changed items/*.json ...]
   workshop build -o index.json
   workshop sign -key-env WORKSHOP_SIGNING_KEY index.json > index.sig
-  workshop verify -pub BASE64 index.json index.sig`)
+  workshop verify -pub BASE64 index.json index.sig
+  workshop checkfile items/<id>.json package.zip   (check a package on your computer before publishing)`)
 	os.Exit(2)
 }
 
@@ -372,5 +375,38 @@ func cmdVerify(args []string) error {
 		return errors.New("signature does not match")
 	}
 	fmt.Println("signature OK")
+	return nil
+}
+
+// cmdCheckFile checks a local package against its item file (for authors,
+// before they publish; size and SHA-256 too).
+func cmdCheckFile(args []string) error {
+	if len(args) != 2 {
+		usage()
+	}
+	it, err := readItem(args[0])
+	if err != nil {
+		return err
+	}
+	data, err := os.ReadFile(args[1])
+	if err != nil {
+		return err
+	}
+	errs := CheckItem(it, args[0])
+	if int64(len(data)) != it.Size {
+		errs = append(errs, fmt.Sprintf("size 应该写 %d", len(data)))
+	}
+	sum := sha256.Sum256(data)
+	if got := hex.EncodeToString(sum[:]); got != it.SHA256 {
+		errs = append(errs, "sha256 应该写 "+got)
+	}
+	errs = append(errs, CheckPackage(it, data)...)
+	if len(errs) > 0 {
+		for _, e := range errs {
+			fmt.Println("❌", e)
+		}
+		return errors.New("check failed")
+	}
+	fmt.Println("✅ 没问题")
 	return nil
 }
