@@ -1,0 +1,19 @@
+{
+  "format": 1,
+  "type": "theme",
+  "id": "yourname.my-theme",
+  "name": "我的主题",
+  "version": "1.0.0",
+  "author": "your-github-name",
+  "description": "介绍一下这个主题。想要背景图就把图片放进 zip，在 theme 里加 \"background\": \"文件名\"。",
+  "theme": {
+    "mode": "dark",
+    "accent": "#ee5b9a",
+    "bgBlur": 6,
+    "bgDim": 0.3,
+    "fontScale": 1,
+    "glassStyle": "frosted",
+    "glassOpacity": 0.74,
+    "glassBlur": 22
+  }
+}

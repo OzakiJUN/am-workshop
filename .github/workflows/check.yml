@@ -1,0 +1,36 @@
+# Checks a pull request that adds or changes workshop items: format, who may
+# change them, and the packages themselves (downloaded, SHA-256, contents).
+# The checker is built from the base branch, so a pull request can't change
+# how it is checked. The report is on the run's summary page.
+name: check
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v7
+        with:
+          go-version: stable
+      - name: Build the checker from the base branch
+        run: |
+          git worktree add -q ../base "origin/${{ github.base_ref }}"
+          if [ -d ../base/tools/workshop ]; then
+            (cd ../base && go build -o "$RUNNER_TEMP/workshop" ./tools/workshop)
+          else
+            # First setup: the base branch has no checker yet.
+            go build -o "$RUNNER_TEMP/workshop" ./tools/workshop
+          fi
+      - name: Check
+        env:
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          BASE: origin/${{ github.base_ref }}
+        run: |
+          changed=$(git diff --name-only "$BASE"...HEAD)
+          if [ -f ../base/workshop.json ]; then cp ../base/workshop.json workshop.json; fi
+          "$RUNNER_TEMP/workshop" check -author "$AUTHOR" -base "$BASE" -summary "$GITHUB_STEP_SUMMARY" $changed

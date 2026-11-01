@@ -1,0 +1,9 @@
+{
+  "format": 1,
+  "type": "portrait",
+  "id": "yourname.my-portrait",
+  "name": "我的形象包",
+  "version": "1.0.0",
+  "author": "your-github-name",
+  "description": "介绍一下这个形象。把按情绪命名的图片（neutral.png 必须有）和这个文件放在一起打成 zip。"
+}

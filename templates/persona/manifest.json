@@ -1,0 +1,9 @@
+{
+  "format": 1,
+  "type": "persona",
+  "id": "yourname.my-persona",
+  "name": "我的人格",
+  "version": "1.0.0",
+  "author": "your-github-name",
+  "description": "介绍一下这个人格。"
+}
